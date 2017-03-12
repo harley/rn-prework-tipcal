@@ -10,8 +10,49 @@ import {
 
 import SegmentedControlTab from 'react-native-segmented-control-tab';
 export default class Calculator extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      billAmount: 0,
+      segmentSelectedIndex: 0,
+      percent: 10
+    }
+  }
 
   segmentValues() { return ['10%', '20%', '30%']; }
+
+  calculateAmount(billAmount, percent) {
+    var tipAmount = billAmount * percent / 100.0;
+    var result = billAmount + tipAmount;
+
+    console.log("billAmount, percent, tipAmount, result", billAmount, percent, tipAmount, result);
+
+    this.setState({
+      result: result,
+      tipAmount: tipAmount
+    })
+  }
+
+  onChangeBillAmount(amount) {
+    console.log("change: ", amount, parseFloat(amount));
+    billAmount = parseFloat(amount);
+    this.setState({
+      billAmount: billAmount
+    });
+
+    this.calculateAmount(billAmount, this.state.percent);
+  }
+
+  onChangeSegment(index) {
+    console.log("onChangeSegment");
+    var percent = parseFloat(this.segmentValues()[index]);
+    this.setState({
+      segmentSelectedIndex: index,
+      percent: percent
+    });
+
+    this.calculateAmount(this.state.billAmount, percent);
+  }
 
   render() {
     return (
@@ -25,27 +66,33 @@ export default class Calculator extends Component {
           <Text style={styles.label}>
             Amount
           </Text>
-          <TextInput style={styles.textInputAmount} placeholder="enter an amount" value="10"/>
+          <TextInput style={styles.textInputAmount} placeholder="enter an amount"
+            onChangeText={(amount) => this.onChangeBillAmount(amount)}
+            keyboardType="numeric"
+            maxLength={100}
+            />
         </View>
         <View style={styles.billContainer}>
           <Text style={styles.label}>
             Tip
           </Text>
           <Text>
-            1.0
+            {this.state.percent}%
           </Text>
         </View>
         <View style={{backgroundColor: 'black', height: 10}}>
         </View>
         <View style={{marginTop: 16}}>
-          <SegmentedControlTab values={this.segmentValues()} />
+          <SegmentedControlTab values={this.segmentValues()}
+            onTabPress={index => this.onChangeSegment(index)}
+             />
         </View>
         <View style={styles.billContainer}>
           <Text style={styles.label}>
             Total
           </Text>
           <Text>
-            11.0
+            {this.state.result}
           </Text>
         </View>
       </View>
@@ -76,7 +123,7 @@ const styles = StyleSheet.create({
 
   },
   textInputAmount: {
-    width: 100,
+    width: 200,
     paddingRight: 5,
     textAlign: 'right',
     borderWidth: 1
