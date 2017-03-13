@@ -12,15 +12,6 @@ import {
   View
 } from 'react-native';
 
-import Calculator from "./App/calculator.js"
-
-export default class tipcal extends Component {
-  render() {
-    return (
-        <Calculator />
-    );
-  }
-}
-
+import tipcal from "./App/tipcal.js"
 
 AppRegistry.registerComponent('tipcal', () => tipcal);

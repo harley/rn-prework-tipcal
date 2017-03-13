@@ -1,23 +1,34 @@
 
 import React, { Component } from 'react';
 import {
-  AppRegistry,
   StyleSheet,
   Text,
   TextInput,
   View,
+  Button
 } from 'react-native';
 
 import SegmentedControlTab from 'react-native-segmented-control-tab';
+
 export default class Calculator extends Component {
   constructor(props) {
     super(props);
     this.state = {
       billAmount: 0,
       segmentSelectedIndex: 0,
-      percent: 10
+      percent: 10,
+      sceneTransition: 'FloatFromRight',
     }
   }
+
+  static navigationOptions = {
+    title: "TipCal",
+    header: ({state, navigate}) => {
+      let right = (<Button title="Settings" onPress={() => {console.log('settings');navigate('Settings')}}/>);
+      return { right };
+    }
+  }
+
 
   segmentValues() { return ['10%', '20%', '30%']; }
 

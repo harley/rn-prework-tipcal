@@ -9,7 +9,8 @@
   "dependencies": {
     "react": "15.4.2",
     "react-native": "0.41.2",
-    "react-native-segmented-control-tab": "^2.0.1"
+    "react-native-segmented-control-tab": "^2.0.1",
+    "react-navigation": "^1.0.0-beta.7"
   },
   "devDependencies": {
     "babel-jest": "19.0.0",
